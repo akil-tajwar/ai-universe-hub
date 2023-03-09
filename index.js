@@ -46,3 +46,15 @@ const displayAi = (datas) => {
     });
 }
 loadAi();
+
+const aiDetails = async(id) => {
+    const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
+    try{
+        const res = await fetch(url);
+        const data = await res.json();
+        modalDetails();
+    }
+    catch(error){
+        console.log(error);
+    }
+}
