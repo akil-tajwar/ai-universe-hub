@@ -1,3 +1,4 @@
+//fetching the data for cards
 const loadAi = async (itemLimit) => {
     const url = 'https://openapi.programming-hero.com/api/ai/tools'
     try {
@@ -14,22 +15,25 @@ const loadAi = async (itemLimit) => {
         console.log(error);
     }
 }
-document.getElementById('see-more').addEventListener('click', () =>{
-    
+
+//for showing 6 items only
+document.getElementById('see-more').addEventListener('click', (datas, itemLimit) =>{
     loadAi(true);
-})
-
-const displayAi = (datas, itemLimit) => {
-    const cardContainer = document.getElementById('card-container');
-
-    //for showing 6 items only
-    if(itemLimit && datas.length >= 6){
-        document.getElementById('see-more').classList.add('hidden');
-    }
-    else{
+    document.getElementById('card-container').innerHTML = ' ';
+    if(itemLimit && datas.length <= 6){
         document.getElementById('see-more').classList.remove('hidden');
     }
+    else{
+        document.getElementById('see-more').classList.add('hidden');
+    }
+})
+const limitation = (itemLimit) => {
+    loadAi(itemLimit);
+}
 
+//card functions and innerHtml code
+const displayAi = (datas) => {
+    const cardContainer = document.getElementById('card-container');
     datas.forEach(data => {
         console.log(data);
         const cardDiv = document.createElement('div');
@@ -66,6 +70,7 @@ const displayAi = (datas, itemLimit) => {
     toggleSpinner(false);
 }
 
+//spinner appears as long as data is loading
 const toggleSpinner = (isLoading) => {
     const loader = document.getElementById('loader');
     if (isLoading !== true) {
@@ -76,10 +81,7 @@ const toggleSpinner = (isLoading) => {
     }
 }
 
-const limitation = (itemLimit) => {
-    loadAi(itemLimit);
-}
-
+//fetching data for modal details
 const aiDetails = async (id) => {
     const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
     try {
@@ -92,6 +94,8 @@ const aiDetails = async (id) => {
         console.log(error);
     }
 }
+
+//modal fucntions and innerHtml code
 const modalDetails = (info) => {
     console.log(info);
     const mainDiv = document.createElement('div');
