@@ -3,26 +3,34 @@ const loadAi = async (itemLimit) => {
     try {
         const res = await fetch(url);
         const datas = await res.json();
-        displayAi(datas.data, itemLimit);
+        if(itemLimit){
+            displayAi(datas.data.tools);
+        }
+        else{
+            displayAi(datas.data.tools.slice(0,6));
+        }
     }
     catch (error) {
         console.log(error);
     }
 }
+document.getElementById('see-more').addEventListener('click', () =>{
+    
+    loadAi(true);
+})
 
 const displayAi = (datas, itemLimit) => {
     const cardContainer = document.getElementById('card-container');
 
     //for showing 6 items only
-    if(itemLimit && datas.length > 6){
-        datas = datas.slice(0,6);
-        document.getElementById('see-more').classList.remove('hidden');
-    }
-    else{
+    if(itemLimit && datas.length >= 6){
         document.getElementById('see-more').classList.add('hidden');
     }
+    else{
+        document.getElementById('see-more').classList.remove('hidden');
+    }
 
-    datas.tools.forEach(data => {
+    datas.forEach(data => {
         console.log(data);
         const cardDiv = document.createElement('div');
         cardDiv.innerHTML = `
@@ -86,8 +94,7 @@ const aiDetails = async (id) => {
 }
 const modalDetails = (info) => {
     console.log(info);
-    document.getElementById('modal-info').innerHTML = " ";
-    const mainDiv = document.createElement('div')
+    const mainDiv = document.createElement('div');
     mainDiv.innerHTML = `
         <div class="flex lg:flex-row flex-col-reverse gap-5">
             <div class="bg-[#ffdddd] rounded-lg p-8 border-[#EB5757] border-2">
