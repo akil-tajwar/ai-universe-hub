@@ -43,7 +43,19 @@ const displayAi = (datas) => {
         </div>
         `;
         cardContainer.appendChild(cardDiv);
+        toggleSpinner(true);
     });
+    toggleSpinner(false);
+}
+
+const toggleSpinner = (isLoading) => {
+    const loader = document.getElementById('loader');
+    if (isLoading !== true) {
+        loader.classList.add('hidden');
+    }
+    else {
+        loader.classList.remove('hidden');
+    }
 }
 
 const aiDetails = async (id) => {
@@ -67,20 +79,20 @@ const modalDetails = (info) => {
             <div class="bg-[#ffdddd] rounded-lg p-8 border-[#EB5757] border-2">
                 <h1 class="text-xl font-bold pb-2">${info.description}</h1>
                 <div class="flex gap-4 py-6">
-                    <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#03A30A]">
-                        <div class="my-auto h-full">
+                    <div class="bg-white w-full p-6 font-semibold text-center rounded-lg text-[#03A30A]">
+                        <div class="my-auto mx-auto m-auto h-full">
                             <p>${info.pricing ? info.pricing[0].price : "no data"}</p>
                             <p>${info.pricing ? info.pricing[0].plan : "no data"}</p>
                         </div>
                     </div>
-                    <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#F28927]">
-                        <div class="my-auto h-full">
+                    <div class="bg-white w-full p-6 font-semibold text-center rounded-lg text-[#F28927]">
+                        <div class="my-auto mx-auto m-auto h-full">
                             <p>${info.pricing ? info.pricing[1].price : "no data"}</p>
                             <p>${info.pricing ? info.pricing[1].plan : "no data"}</p>
                         </div>
                     </div>
-                    <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#EB5757]">
-                        <div class="my-auto h-full">
+                    <div class="bg-white w-full p-6 font-semibold text-center rounded-lg text-[#EB5757]">
+                        <div class="my-auto mx-auto m-auto h-full">
                             <p>${info.pricing ? info.pricing[2].price : "no data"}</p>
                             <p>${info.pricing ? info.pricing[2].plan : "no data"}</p>
                         </div>
@@ -113,7 +125,7 @@ const modalDetails = (info) => {
                 </div>
             </div>
         </div>
-        `;
-        document.getElementById('modal-info').appendChild(mainDiv);
+    `;
+    document.getElementById('modal-info').appendChild(mainDiv);
 }
 loadAi();
