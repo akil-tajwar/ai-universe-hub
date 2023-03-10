@@ -1,19 +1,29 @@
-const loadAi = async () => {
+const loadAi = async (itemLimit) => {
     const url = 'https://openapi.programming-hero.com/api/ai/tools'
     try {
         const res = await fetch(url);
         const datas = await res.json();
-        displayAi(datas.data);
+        displayAi(datas.data, itemLimit);
     }
     catch (error) {
         console.log(error);
     }
 }
 
-const displayAi = (datas) => {
+const displayAi = (datas, itemLimit) => {
     const cardContainer = document.getElementById('card-container');
+
+    //for showing 6 items only
+    if(itemLimit && datas.length > 6){
+        datas = datas.slice(0,6);
+        document.getElementById('see-more').classList.remove('hidden');
+    }
+    else{
+        document.getElementById('see-more').classList.add('hidden');
+    }
+
     datas.tools.forEach(data => {
-        // console.log(data);
+        console.log(data);
         const cardDiv = document.createElement('div');
         cardDiv.innerHTML = `
         <div class="card card-compact w-auto h-full bg-base-100 border-gray-200 border-2">
@@ -56,6 +66,10 @@ const toggleSpinner = (isLoading) => {
     else {
         loader.classList.remove('hidden');
     }
+}
+
+const limitation = (itemLimit) => {
+    loadAi(itemLimit);
 }
 
 const aiDetails = async (id) => {
