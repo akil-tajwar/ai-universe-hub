@@ -98,8 +98,7 @@ const aiDetails = async (id) => {
 //modal fucntions and innerHtml code
 const modalDetails = (info) => {
     console.log(info);
-    const mainDiv = document.createElement('div');
-    mainDiv.innerHTML = `
+    document.getElementById('modal-info').innerHTML = `
         <div class="flex lg:flex-row flex-col-reverse gap-5">
             <div class="bg-[#ffdddd] rounded-lg p-8 border-[#EB5757] border-2">
                 <h1 class="text-xl font-bold pb-2">${info.description}</h1>
@@ -137,7 +136,14 @@ const modalDetails = (info) => {
                 </div>
             </div>
             <div class="rounded-lg p-8 border-gray-200 border-2">
-                <figure><img class="rounded-lg" src="${info.image_link ? info.image_link[0] : "no data"}" alt="" /></figure>
+                <div>
+                    <figure><img class="rounded-lg" src="${info.image_link ? info.image_link[0] : "no data"}" alt="" /></figure>
+                    <div class="flex justify-end items-end">
+                        <div class="bg-red-600 text-white w-32 mx-1 text-right rounded-lg relative lg:bottom-52 bottom-40">
+                            <p class="px-1">${(info.accuracy.score)*100}% accuracy</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="py-8 text-center">
                     <h1 class="text-xl font-bold pb-2">${info.input_output_examples ? info.input_output_examples[0].input : "no data"}</h1>
                     <p>${info.input_output_examples ? info.input_output_examples[0].output : "no data"}</p>
@@ -145,6 +151,5 @@ const modalDetails = (info) => {
             </div>
         </div>
     `;
-    document.getElementById('modal-info').appendChild(mainDiv);
 }
 loadAi();
