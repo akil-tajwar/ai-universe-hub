@@ -35,7 +35,7 @@ const displayAi = (datas) => {
                     </div>
                     <div class="my-auto">
                         <label for="my-modal-5" class="btn hover:bg-[#ffdddd] bg-white border-none">
-                            <i class="fa-solid fa-arrow-right text-[#EB5757]"></i>
+                            <i onclick="aiDetails('${data.id}')" class="fa-solid fa-arrow-right text-[#EB5757]"></i>
                         </label>
                     </div>  
                 </div>
@@ -47,14 +47,23 @@ const displayAi = (datas) => {
 }
 loadAi();
 
-const aiDetails = async(id) => {
+const aiDetails = async (id) => {
     const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`;
-    try{
+    try {
         const res = await fetch(url);
         const data = await res.json();
-        modalDetails();
+        modalDetails(data.data);
+        // console.log(data.data);
     }
-    catch(error){
+    catch (error) {
         console.log(error);
     }
 }
+const modalDetails = (info) => {
+    console.log(info);
+    document.getElementById('modal-info').innerHTML = `
+        <h1 class="text-xl font-semibold pb-2">${info.description}</h1>
+        <figure><img src="${info.image_link[0]}" alt="" /></figure>
+        `;
+}
+aiDetails();
