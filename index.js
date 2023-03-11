@@ -65,10 +65,22 @@ const displayAi = (datas) => {
         </div>
         `;
         cardContainer.appendChild(cardDiv);
+
+
+        const dateSort = (a,b,c,d,e,f,g,h,i,j,k,l) =>{
+            const datea = new Date(data.published_in)
+        }
+
+
         toggleSpinner(true);
     });
     toggleSpinner(false);
 }
+
+//sorting by date
+document.getElementById('sorting').addEventListener('click', () =>{
+    data.sort((a,b) => new Date(b.published_in)-new Date(a.published_in));
+})
 
 //spinner appears as long as data is loading
 const toggleSpinner = (isLoading) => {
@@ -98,58 +110,65 @@ const aiDetails = async (id) => {
 //modal fucntions and innerHtml code
 const modalDetails = (info) => {
     console.log(info);
+    // document.getElementById('modal-info').innerhtml = ' ';
     document.getElementById('modal-info').innerHTML = `
         <div class="flex lg:flex-row flex-col-reverse gap-5">
             <div class="bg-[#ffdddd] rounded-lg p-8 border-[#EB5757] border-2">
-                <h1 class="text-xl font-bold pb-2">${info.description}</h1>
+                <h1 class="text-xl font-bold pb-2">${info.description && info.description }</h1>
                 <div class="flex lg:flex-row flex-col gap-4 py-6">
                     <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#03A30A]">
-                        <p>${info.pricing ? info.pricing[0].price : "no data"}</p>
-                        <p>${info.pricing ? info.pricing[0].plan : "no data"}</p>
+                        <p>${info.pricing ? info.pricing[0].price : "free of cost"}</p>
+                        <p>${info.pricing[0].plan}</p>
                     </div>
                     <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#F28927]">
-                        <p>${info.pricing ? info.pricing[1].price : "no data"}</p>
-                        <p>${info.pricing ? info.pricing[1].plan : "no data"}</p>
+                        <p>${info.pricing ? info.pricing[1].price : "free of cost"}</p>
+                        <p>${info.pricing[1].plan}</p>
                     </div>
                     <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#EB5757]">
-                        <p>${info.pricing ? info.pricing[2].price : "no data"}</p>
-                        <p>${info.pricing ? info.pricing[2].plan : "no data"}</p>
+                        <p>${info.pricing ? info.pricing[2].price : "free of cost"}</p>
+                        <p>${info.pricing[2].plan}</p>
                     </div>
                 </div>
                 <div class="flex justify-between gap-8">
                     <div>
                         <h1 class="text-xl font-bold pb-2">Features</h1>
                         <ul class="list-disc ml-4">
-                            <li>${info.features ? info.features[1].feature_name : "no data"}</li>
-                            <li>${info.features ? info.features[2].feature_name : "no data"}</li>
-                            <li>${info.features ? info.features[3].feature_name : "no data"}</li>
+                            <li class="remove-array">${info.features ? info.features[1].feature_name : "no data found"}</li>
+                            <li class="remove-array">${info.features ? info.features[2].feature_name : "no data found"}</li>
+                            <li class="remove-array">${info.features ? info.features[3].feature_name : "no data found"}</li>  
                         </ul>
                     </div>
                     <div>
                         <h1 class="text-xl font-bold pb-2">Integration</h1>
                         <ul class="list-disc ml-4">
-                            <li>${info.integrations ? info.integrations[0] : "no data"}</li>
-                            <li>${info.integrations ? info.integrations[1] : "no data"}</li>
-                            <li>${info.integrations ? info.integrations[2] : "no data"}</li>
+                            ${info.integrations.map(datas => `<li>${datas}</li>`).join('')}
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="rounded-lg p-8 border-gray-200 border-2">
                 <div>
-                    <figure><img class="rounded-lg" src="${info.image_link ? info.image_link[0] : "no data"}" alt="" /></figure>
+                    <figure><img class="rounded-lg" src="${info.image_link ? info.image_link[0] : "no data found"}" alt="" /></figure>
                     <div class="flex justify-end items-end">
-                        <div class="bg-red-600 text-white w-32 mx-1 text-right rounded-lg relative lg:bottom-52 bottom-40">
+                        <div id="remove-accuracy" class="bg-red-600 text-white w-32 mx-1 text-right rounded-lg relative lg:bottom-52 bottom-40">
                             <p class="px-1">${(info.accuracy.score)*100}% accuracy</p>
                         </div>
                     </div>
                 </div>
                 <div class="py-8 text-center">
-                    <h1 class="text-xl font-bold pb-2">${info.input_output_examples ? info.input_output_examples[0].input : "no data"}</h1>
-                    <p>${info.input_output_examples ? info.input_output_examples[0].output : "no data"}</p>
+                    <h1 class="text-xl font-bold pb-2">${info.input_output_examples ? info.input_output_examples[0].input : "Can you give any example?"}</h1>
+                    <p>${info.input_output_examples ? info.input_output_examples[0].output : "No, not yet. Take a break"}</p>
                 </div>
             </div>
         </div>
     `;
+    console.log(info.features)
+    console.log(info.features[1])
+    
+
+    if(info.accuracy.score === null || info.accuracy.score === 0){
+        document.getElementById('remove-accuracy').classList.add('hidden');
+    }
+    const removeArrays = document.getElementsByClassName('remove-array');
 }
 loadAi();
