@@ -118,30 +118,28 @@ const modalDetails = (info) => {
                 <div class="flex lg:flex-row flex-col gap-4 py-6">
                     <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#03A30A]">
                         <p>${info.pricing ? info.pricing[0].price : "free of cost"}</p>
-                        <p>${info.pricing[0].plan}</p>
+                        <p>${info.pricing ? info.pricing[0].plan : "no data"}</p>
                     </div>
                     <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#F28927]">
                         <p>${info.pricing ? info.pricing[1].price : "free of cost"}</p>
-                        <p>${info.pricing[1].plan}</p>
+                        <p>${info.pricing ? info.pricing[1].plan : "no data"}</p>
                     </div>
                     <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#EB5757]">
                         <p>${info.pricing ? info.pricing[2].price : "free of cost"}</p>
-                        <p>${info.pricing[2].plan}</p>
+                        <p>${info.pricing ? info.pricing[2].plan : "no data"}</p>
                     </div>
                 </div>
                 <div class="flex justify-between gap-8">
                     <div>
                         <h1 class="text-xl font-bold pb-2">Features</h1>
                         <ul class="list-disc ml-4">
-                            <li class="remove-array">${info.features ? info.features[1].feature_name : "no data found"}</li>
-                            <li class="remove-array">${info.features ? info.features[2].feature_name : "no data found"}</li>
-                            <li class="remove-array">${info.features ? info.features[3].feature_name : "no data found"}</li>  
+                            ${Object.keys(info.features).map(key =>`<li>${info.features[key].feature_name}</li>`).join('')}  
                         </ul>
                     </div>
                     <div>
                         <h1 class="text-xl font-bold pb-2">Integration</h1>
                         <ul class="list-disc ml-4">
-                            ${info.integrations.map(datas => `<li>${datas}</li>`).join('')}
+                            ${info.integrations ? info.integrations.map(integrations => `<li>${integrations}</li>`).join('') : "no data"}
                         </ul>
                     </div>
                 </div>
@@ -163,12 +161,10 @@ const modalDetails = (info) => {
         </div>
     `;
     console.log(info.features)
-    console.log(info.features[1])
     
-
-    if(info.accuracy.score === null || info.accuracy.score === 0){
+    //remove accuracy if data doesn't exist
+    if(info.accuracy.score === null){
         document.getElementById('remove-accuracy').classList.add('hidden');
     }
-    const removeArrays = document.getElementsByClassName('remove-array');
 }
 loadAi();
