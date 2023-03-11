@@ -4,11 +4,11 @@ const loadAi = async (itemLimit) => {
     try {
         const res = await fetch(url);
         const datas = await res.json();
-        if(itemLimit){
+        if (itemLimit) {
             displayAi(datas.data.tools);
         }
-        else{
-            displayAi(datas.data.tools.slice(0,6));
+        else {
+            displayAi(datas.data.tools.slice(0, 6));
         }
     }
     catch (error) {
@@ -17,13 +17,13 @@ const loadAi = async (itemLimit) => {
 }
 
 //for showing 6 items only
-document.getElementById('see-more').addEventListener('click', (datas, itemLimit) =>{
+document.getElementById('see-more').addEventListener('click', (datas, itemLimit) => {
     loadAi(true);
     document.getElementById('card-container').innerHTML = ' ';
-    if(itemLimit && datas.length <= 6){
+    if (itemLimit && datas.length <= 6) {
         document.getElementById('see-more').classList.remove('hidden');
     }
-    else{
+    else {
         document.getElementById('see-more').classList.add('hidden');
     }
 })
@@ -32,8 +32,8 @@ const limitation = (itemLimit) => {
 }
 
 //card functions and innerHtml code
+const cardContainer = document.getElementById('card-container');
 const displayAi = (datas) => {
-    const cardContainer = document.getElementById('card-container');
     datas.forEach(data => {
         console.log(data);
         const cardDiv = document.createElement('div');
@@ -65,22 +65,16 @@ const displayAi = (datas) => {
         </div>
         `;
         cardContainer.appendChild(cardDiv);
-
-
-        const dateSort = (a,b,c,d,e,f,g,h,i,j,k,l) =>{
-            const datea = new Date(data.published_in)
-        }
-
-
         toggleSpinner(true);
     });
     toggleSpinner(false);
 }
 
-//sorting by date
-document.getElementById('sorting').addEventListener('click', () =>{
-    data.sort((a,b) => new Date(b.published_in)-new Date(a.published_in));
-})
+//sorting by date (i tried my best)
+// const sorting = (datas) => {
+//     cardContainer.innerHTML = ' ';
+//     datas.sort((a,b) => new Date(b.published_in)-new Date(a.published_in));
+// }
 
 //spinner appears as long as data is loading
 const toggleSpinner = (isLoading) => {
@@ -110,36 +104,35 @@ const aiDetails = async (id) => {
 //modal fucntions and innerHtml code
 const modalDetails = (info) => {
     console.log(info);
-    // document.getElementById('modal-info').innerhtml = ' ';
     document.getElementById('modal-info').innerHTML = `
         <div class="flex lg:flex-row flex-col-reverse gap-5">
             <div class="bg-[#ffdddd] rounded-lg p-8 border-[#EB5757] border-2">
-                <h1 class="text-xl font-bold pb-2">${info.description && info.description }</h1>
+                <h1 class="text-xl font-bold pb-2">${info.description && info.description}</h1>
                 <div class="flex lg:flex-row flex-col gap-4 py-6">
                     <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#03A30A]">
                         <p>${info.pricing ? info.pricing[0].price : "free of cost"}</p>
-                        <p>${info.pricing ? info.pricing[0].plan : "no data"}</p>
+                        <p>${info.pricing ? info.pricing[0].plan : "no data found"}</p>
                     </div>
                     <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#F28927]">
                         <p>${info.pricing ? info.pricing[1].price : "free of cost"}</p>
-                        <p>${info.pricing ? info.pricing[1].plan : "no data"}</p>
+                        <p>${info.pricing ? info.pricing[1].plan : "no data found"}</p>
                     </div>
                     <div class="bg-white p-6 font-semibold text-center rounded-lg text-[#EB5757]">
                         <p>${info.pricing ? info.pricing[2].price : "free of cost"}</p>
-                        <p>${info.pricing ? info.pricing[2].plan : "no data"}</p>
+                        <p>${info.pricing ? info.pricing[2].plan : "no data found"}</p>
                     </div>
                 </div>
                 <div class="flex justify-between gap-8">
                     <div>
                         <h1 class="text-xl font-bold pb-2">Features</h1>
                         <ul class="list-disc ml-4">
-                            ${Object.keys(info.features).map(key =>`<li>${info.features[key].feature_name}</li>`).join('')}  
+                            ${Object.keys(info.features).map(key => `<li>${info.features[key].feature_name}</li>`).join('')}  
                         </ul>
                     </div>
                     <div>
                         <h1 class="text-xl font-bold pb-2">Integration</h1>
                         <ul class="list-disc ml-4">
-                            ${info.integrations ? info.integrations.map(integrations => `<li>${integrations}</li>`).join('') : "no data"}
+                            ${info.integrations ? info.integrations.map(integrations => `<li>${integrations}</li>`).join('') : "no data found"}
                         </ul>
                     </div>
                 </div>
@@ -149,7 +142,7 @@ const modalDetails = (info) => {
                     <figure><img class="rounded-lg" src="${info.image_link ? info.image_link[0] : "no data found"}" alt="" /></figure>
                     <div class="flex justify-end items-end">
                         <div id="remove-accuracy" class="bg-red-600 text-white w-32 mx-1 text-right rounded-lg relative lg:bottom-52 bottom-40">
-                            <p class="px-1">${(info.accuracy.score)*100}% accuracy</p>
+                            <p class="px-1">${(info.accuracy.score) * 100}% accuracy</p>
                         </div>
                     </div>
                 </div>
@@ -161,9 +154,9 @@ const modalDetails = (info) => {
         </div>
     `;
     console.log(info.features)
-    
+
     //remove accuracy if data doesn't exist
-    if(info.accuracy.score === null){
+    if (info.accuracy.score === null) {
         document.getElementById('remove-accuracy').classList.add('hidden');
     }
 }
