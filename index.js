@@ -74,7 +74,7 @@ const displayAi = (datas) => {
     toggleSpinner(false);
 }
 
-//sorting by date (i tried my best)
+//sorting by date
 const sorting = () => {
     sortDate.sort((a,b) => new Date(b.published_in)-new Date(a.published_in));
     console.log(sortDate)
