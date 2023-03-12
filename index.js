@@ -31,11 +31,15 @@ const limitation = (itemLimit) => {
     loadAi(itemLimit);
 }
 
+let sortDate = [];
+
 //card functions and innerHtml code
 const cardContainer = document.getElementById('card-container');
 const displayAi = (datas) => {
+    sortDate = datas;
+    cardContainer.innerHTML = ''
     datas.forEach(data => {
-        console.log(data);
+        // console.log(data);
         const cardDiv = document.createElement('div');
         cardDiv.innerHTML = `
         <div class="card card-compact w-auto h-full bg-base-100 border-gray-200 border-2">
@@ -71,10 +75,11 @@ const displayAi = (datas) => {
 }
 
 //sorting by date (i tried my best)
-// const sorting = (datas) => {
-//     cardContainer.innerHTML = ' ';
-//     datas.sort((a,b) => new Date(b.published_in)-new Date(a.published_in));
-// }
+const sorting = () => {
+    sortDate.sort((a,b) => new Date(b.published_in)-new Date(a.published_in));
+    console.log(sortDate)
+    displayAi(sortDate);
+}
 
 //spinner appears as long as data is loading
 const toggleSpinner = (isLoading) => {
